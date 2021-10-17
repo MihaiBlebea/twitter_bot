@@ -1,0 +1,7 @@
+### Tasks
+	✔ Get content from dev.to api @done (17/10/2021, 11:44:17)
+	✔ Create content scheduler in csv @done (17/10/2021, 11:44:21)
+	✔ Fetch content from scheduler and post it to twitter @done (17/10/2021, 11:44:24)
+	☐ Create pipeline to deploy twitter bot to raspberry pi
+	☐ Create cron job so twitter bot can post at regular times
+	☐ Fetch env variables from the env file, remove hardcoded variables
