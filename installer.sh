@@ -32,7 +32,7 @@ else
 		exit
 	else
 		echo "cron file is not here. installing it"
-		echo "${COMMAND}" > $CRON_FILE
+		sudo echo "${COMMAND}" > $CRON_FILE
 	fi
 	echo "finish the install or update process. all up to date"
 fi
