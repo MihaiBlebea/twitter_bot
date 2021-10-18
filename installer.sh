@@ -6,6 +6,16 @@ FOLDER_NAME="./twitter_bot"
 CRON_FILE=/etc/cron.d/twitter_bot_cron
 COMMAND="*/2 * * * * ${HOME}/publish.sh > /dev/null 2>&1"
 
+# check dependencies
+checkfor () {
+	command -v $1 >/dev/null 2>&1 || {
+		echo >&2 "$1 required"
+		exit 1
+	}
+}
+
+checkfor "git"
+
 # install or uninstall. that is the question
 echo "install or uninstall. that is the question..."
 if [[ $* == *-u* ]]; then
