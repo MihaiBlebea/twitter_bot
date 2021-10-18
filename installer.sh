@@ -18,10 +18,6 @@ setcrontab () {
 	( crontab -u $USER -l; echo $COMMAND ) | crontab -u $USER -
 }
 
-crontab_exists () {
-	crontab -l | grep $COMMAND
-}
-
 # run the function to check for git dependency
 checkfor "git"
 
@@ -51,11 +47,11 @@ if [[ $* == *-c* ]]; then
 	fi
 
 	# check if the crontab file exists
-	# if test -f "$CRON_FILE"; then
-	# 	echo -e "\xE2\x9C\x94 crontab file exists"
-	# else
-	# 	echo -e "x crontab file missing"
-	# fi
+	if test -f "$CRON_FILE"; then
+		echo -e "\xE2\x9C\x94 crontab file exists"
+	else
+		echo -e "x crontab file missing"
+	fi
 
 	exit 0
 fi
@@ -96,18 +92,12 @@ else
 	fi
 
 	# installing the cron tab
-	# if test -f "$CRON_FILE"; then
-	# 	echo "cron file already installed. finishing..."
-	# 	exit
-	# else
-	# 	echo "cron file is not here. installing it"
-	# 	echo "${COMMAND}" > $CRON_FILE
-	# fi
-
-	crontab_exists()
-	if [ $? -eq 1 ]; then
-		# could not find command in crontab, set it now
-		setcrontab()
+	if test -f "$CRON_FILE"; then
+		echo "cron file already installed. finishing..."
+		exit
+	else
+		echo "cron file is not here. installing it"
+		echo "${COMMAND}" > $CRON_FILE
 	fi
 
 	echo "finish the install or update process. all up to date"
