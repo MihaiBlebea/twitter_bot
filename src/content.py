@@ -20,7 +20,7 @@ def fetch_devto() -> None:
 
 	contents = r.json()
 	
-	save_to_json(contents, "contents")
+	# save_to_json(contents, "contents")
 
 	schedules = []
 	for content in contents:
