@@ -18,6 +18,10 @@ setcrontab () {
 	( crontab -u $USER -l; echo $COMMAND ) | crontab -u $USER -
 }
 
+crontab_exists () {
+	crontab -l | grep $COMMAND
+}
+
 # run the function to check for git dependency
 checkfor "git"
 
@@ -100,7 +104,8 @@ else
 	# 	echo "${COMMAND}" > $CRON_FILE
 	# fi
 
-	if [ (crontab -l | grep $COMMAND) -eq 1 ]; then
+	crontab_exists()
+	if [ $? -eq 1 ]; then
 		# could not find command in crontab, set it now
 		setcrontab()
 	fi
