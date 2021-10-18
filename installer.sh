@@ -4,7 +4,7 @@ REPO_URL="https://github.com/MihaiBlebea/twitter_bot.git"
 FOLDER_NAME="./twitter_bot"
 
 CRON_FILE=/etc/cron.d/twitter_bot_cron
-COMMAND="*/2 * * * * ${HOME}/publish.sh >> ${HOME}/twitter_bot_logs.log 2>&1"
+COMMAND="*/2 * * * * ${HOME}/${FOLDER_NAME}/publish.sh >> ${HOME}/twitter_bot_logs.log 2>&1"
 
 # check dependencies
 checkfor () {
