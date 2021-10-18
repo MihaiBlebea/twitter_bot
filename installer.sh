@@ -14,7 +14,29 @@ checkfor () {
 	}
 }
 
+# run the function to check for git dependency
 checkfor "git"
+
+# check the install status
+if [[ $* == *-c* ]]; then
+	echo "check the status of the install:"
+
+	# check the repo folder
+	if [ -d $FOLDER_NAME ]; then
+		echo -e "\xE2\x9C\x94 repo folder exists"
+	else
+		echo -e "x repo folder missing"
+	fi
+
+	# check if the crontab file exists
+	if test -f "$CRON_FILE"; then
+		echo -e "\xE2\x9C\x94 crontab file exists"
+	else
+		echo -e "x crontab file missing"
+	fi
+
+	exit 0
+fi
 
 # install or uninstall. that is the question
 echo "install or uninstall. that is the question..."
