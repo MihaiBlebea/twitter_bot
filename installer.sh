@@ -35,6 +35,13 @@ if [[ $* == *-c* ]]; then
 		echo -e "x virtual env missing"
 	fi
 
+	# check if the env file exists
+	if test -f "./$FOLDER_NAME/.env"; then
+		echo -e "\xE2\x9C\x94 env file exists"
+	else
+		echo -e "x env file missing"
+	fi
+
 	# check if the crontab file exists
 	if test -f "$CRON_FILE"; then
 		echo -e "\xE2\x9C\x94 crontab file exists"

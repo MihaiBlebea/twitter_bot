@@ -1,4 +1,5 @@
 import csv
+from pathlib import Path
 
 SCHEDULER_FILE = "scheduler.csv"
 
@@ -25,6 +26,9 @@ def get_next_post() -> dict:
 	"""
 	get next post where posted is False
 	"""
+	if Path(SCHEDULER_FILE).is_file() is False:
+		return None
+	
 	with open(SCHEDULER_FILE, mode="r") as file:
 		r = csv.DictReader(file)
 		for row in r:
