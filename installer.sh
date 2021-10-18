@@ -14,6 +14,10 @@ checkfor () {
 	}
 }
 
+setcrontab () {
+	( crontab -u $USER -l; echo $COMMAND ) | crontab -u $USER -
+}
+
 # run the function to check for git dependency
 checkfor "git"
 
@@ -43,11 +47,11 @@ if [[ $* == *-c* ]]; then
 	fi
 
 	# check if the crontab file exists
-	if test -f "$CRON_FILE"; then
-		echo -e "\xE2\x9C\x94 crontab file exists"
-	else
-		echo -e "x crontab file missing"
-	fi
+	# if test -f "$CRON_FILE"; then
+	# 	echo -e "\xE2\x9C\x94 crontab file exists"
+	# else
+	# 	echo -e "x crontab file missing"
+	# fi
 
 	exit 0
 fi
@@ -88,12 +92,18 @@ else
 	fi
 
 	# installing the cron tab
-	if test -f "$CRON_FILE"; then
-		echo "cron file already installed. finishing..."
-		exit
-	else
-		echo "cron file is not here. installing it"
-		echo "${COMMAND}" > $CRON_FILE
+	# if test -f "$CRON_FILE"; then
+	# 	echo "cron file already installed. finishing..."
+	# 	exit
+	# else
+	# 	echo "cron file is not here. installing it"
+	# 	echo "${COMMAND}" > $CRON_FILE
+	# fi
+
+	if [ (crontab -l | grep $COMMAND) -eq 1 ]; then
+		# could not find command in crontab, set it now
+		setcrontab()
 	fi
+
 	echo "finish the install or update process. all up to date"
 fi
