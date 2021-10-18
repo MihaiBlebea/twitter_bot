@@ -28,6 +28,13 @@ if [[ $* == *-c* ]]; then
 		echo -e "x repo folder missing"
 	fi
 
+	# check if virtual env created
+	if [ -d "$FOLDER_NAME/virtualenv" ] || [ -d "./virtualenv" ]; then
+		echo -e "\xE2\x9C\x94 virtual env exists"
+	else
+		echo -e "x virtual env missing"
+	fi
+
 	# check if the crontab file exists
 	if test -f "$CRON_FILE"; then
 		echo -e "\xE2\x9C\x94 crontab file exists"
@@ -56,6 +63,20 @@ else
 		echo "folder does not exist. just install..."
 		git clone $REPO_URL $FOLDER_NAME && \
 		cd $FOLDER_NAME
+	fi
+
+	# check if virtualenv has been activated
+	if [ -d "$FOLDER_NAME/virtualenv" ] || [ -d "./virtualenv" ]; then
+		echo "virtualenv already created"
+	else
+		echo "virtualenv not created yet. starting now"
+		if [ "./${PWD##*/}" == $FOLDER_NAME ]; then
+			python3 -m venv virtualenv && pip3 install -r requirements.txt
+		else
+			cd $FOLDER_NAME && \
+			python3 -m venv virtualenv && \
+			pip3 install -r requirements.txt
+		fi
 	fi
 
 	# installing the cron tab

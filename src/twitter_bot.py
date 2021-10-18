@@ -2,6 +2,7 @@ import tweepy
 from dotenv import dotenv_values
 
 from scheduler import get_next_post, mark_posted
+from content import fetch_devto
 from telegram import send_message
 
 
@@ -17,7 +18,9 @@ def main():
 	post = get_next_post()
 	if post == None:
 		print("no post found")
-		return
+		
+		fetch_devto()
+		post = get_next_post()
 
 
 	# trends = api.available_trends()
