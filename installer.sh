@@ -71,11 +71,12 @@ else
 	else
 		echo "virtualenv not created yet. starting now"
 		if [ ${PWD##*/} == $FOLDER_NAME ]; then
-			python3 -m venv virtualenv && pip3 install -r requirements.txt
+			python3 -m venv virtualenv && \
+			./virtualenv/bin/pip3 install -r requirements.txt
 		else
 			cd "./$FOLDER_NAME" && \
 			python3 -m venv virtualenv && \
-			pip3 install -r requirements.txt
+			./virtualenv/bin/pip3 install -r requirements.txt
 		fi
 	fi
 
