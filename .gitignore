@@ -2,3 +2,4 @@ virtualenv
 .env
 scheduler.csv
 contents.json
+store.db

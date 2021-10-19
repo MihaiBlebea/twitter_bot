@@ -15,6 +15,7 @@ checkfor () {
 
 # run the function to check for git dependency
 checkfor "git"
+checkfor "sqlite3"
 
 # check the install status
 if [[ $* == *-c* ]]; then
@@ -86,7 +87,11 @@ else
 		fi
 	fi
 
-	# installing the cron tab
+	echo "installing the database"
+	sqlite3 store.db < ./init.sql
+
+	# installing the cronjob
+	echo "installing the cronjob"
 	${HOME}/${FOLDER_NAME}/crontab.sh "$COMMAND"
 
 	echo "finish the install or update process. all up to date"
