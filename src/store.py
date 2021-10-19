@@ -48,8 +48,36 @@ def select_all() -> list:
 	return schedules
 
 
+def select_next_unposted() -> Schedule:
+	cursor = conn.cursor()
+	row = cursor.execute(f"SELECT * FROM {TABLE_NAME} WHERE posted = 'False' ORDER BY id ASC").fetchone()
+
+	if row == None:
+		return None
+		
+	return from_row_to_model(row)
+
+
+def update_as_posted(id : int) -> None:
+	cursor = conn.cursor()
+	cursor.execute(
+		"UPDATE {} SET posted = 'True' WHERE id = {};".format(
+			TABLE_NAME,
+			id,
+		)
+	)
+
+	cursor.close()
+	conn.commit()
+
+
 def from_row_to_model(row) -> Schedule:
 	s = Schedule(row[1], row[2], row[3], row[4])
 	s.id = row[0]
 
 	return s
+
+
+if __name__ == "__main__":
+	s = select_next_unposted()
+	print(s)

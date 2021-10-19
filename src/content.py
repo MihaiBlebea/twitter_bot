@@ -1,6 +1,7 @@
 import requests
 import json
-from scheduler import schedule
+# from scheduler import 
+from store import Schedule, insert
 
 CHARACTER_LIMIT = 280
 
@@ -22,7 +23,7 @@ def fetch_devto() -> None:
 	
 	# save_to_json(contents, "contents")
 
-	schedules = []
+	# schedules = []
 	for content in contents:
 		raw_content = content["title"] + " " + content["description"]
 		url = content["url"]
@@ -35,9 +36,11 @@ def fetch_devto() -> None:
 			url,
 		)
 
-		schedules.append([post, url, author, posted])
+		insert(Schedule(post, url, author, posted))
 
-	schedule(schedules)
+		# schedules.append([post, url, author, posted])
+
+	# schedule(schedules)
 
 
 def prepare_post(content : str, author : str, url : str) -> str:
