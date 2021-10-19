@@ -40,6 +40,9 @@ fi
 # check if the crontab is already set
 checkcrontab
 
+echo $CHECK
+echo $COMMAND
+
 # do the logic in here
 if [[ $CHECK == *"$COMMAND"* ]]; then
 	echo "< $COMMAND > cron command is already set"
