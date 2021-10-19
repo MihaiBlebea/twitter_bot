@@ -40,12 +40,12 @@ fi
 # check if the crontab is already set
 checkcrontab
 
-echo $CHECK
-echo $COMMAND
+echo "check $CHECK"
+echo "command $COMMAND"
 
 # do the logic in here
 if [[ $CHECK == *"$COMMAND"* ]]; then
-	echo "< $COMMAND > cron command is already set"
+	echo "< $COMMAND $COMMAND> cron command is already set"
 	if [[ $* == *-u* ]]; then
 		echo "removing cron command < $COMMAND >"
 		removecrontab
