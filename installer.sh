@@ -3,7 +3,6 @@
 REPO_URL="https://github.com/MihaiBlebea/twitter_bot.git"
 FOLDER_NAME="twitter_bot"
 
-CRON_FILE=/etc/cron.d/twitter_bot_cron
 COMMAND="*/2 * * * * cd ${HOME}/${FOLDER_NAME} && ./publish.sh >> ${HOME}/twitter_bot_logs.log 2>&1"
 
 # check dependencies
@@ -89,14 +88,6 @@ else
 
 	# installing the cron tab
 	${HOME}/${FOLDER_NAME}/crontab.sh "$COMMAND"
-
-	# if test -f "$CRON_FILE"; then
-	# 	echo "cron file already installed. finishing..."
-	# 	exit
-	# else
-	# 	echo "cron file is not here. installing it"
-	# 	echo "${COMMAND}" > $CRON_FILE
-	# fi
 
 	echo "finish the install or update process. all up to date"
 fi
