@@ -17,15 +17,15 @@ class Schedule():
 
 def insert(schedule: Schedule) -> Schedule:
 	cursor = conn.cursor()
-	cursor.execute(
-		"INSERT INTO {} (post, link, twitter_username, posted) VALUES ('{}', '{}', '{}', '{}')".format(
-			TABLE_NAME,
-			schedule.post,
-			schedule.link,
-			schedule.twitter_username,
-			schedule.posted
-		)
+	query = "INSERT INTO {} (post, link, twitter_username, posted) VALUES (\"{}\", \"{}\", \"{}\", \"{}\")".format(
+		TABLE_NAME,
+		schedule.post,
+		schedule.link,
+		schedule.twitter_username,
+		schedule.posted
 	)
+	
+	cursor.execute(query)
 
 	conn.commit()
 

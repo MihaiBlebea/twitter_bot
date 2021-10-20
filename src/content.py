@@ -9,7 +9,7 @@ def main():
 	fetch_devto()
 
 
-def fetch_devto() -> None:
+def fetch_devto(save_to_json : bool = False) -> None:
 	"""
 	Fetches content from dev.to website and saves it in the schedules csv file
 	"""
@@ -23,10 +23,10 @@ def fetch_devto() -> None:
 		return None
 
 	contents = r.json()
-	
-	# save_to_json(contents, "contents")
 
-	# schedules = []
+	if save_to_json == True:
+		save_to_json(contents, "contents")
+
 	for content in contents:
 		raw_content = content["title"] + " " + content["description"]
 		url = content["url"]
@@ -46,7 +46,7 @@ def fetch_devto() -> None:
 
 def prepare_post(content : str, author : str, url : str, tags : list = []) -> str:
 	# removes excesive whitespaces
-	content = content.replace("  ", " ")
+	content = content.replace("  ", " ").replace("\"", "")
 
 	content_length = CHARACTER_LIMIT - len(url) - 2 #space characters
 	if author is not None:
