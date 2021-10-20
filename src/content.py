@@ -13,7 +13,10 @@ def fetch_devto() -> None:
 	"""
 	Fetches content from dev.to website and saves it in the schedules csv file
 	"""
-	url = "https://dev.to/api/articles"
+	tags = ["elixir", "go", "golang", "functional", "python"]
+	divider = ","
+	page = 1
+	url = f"https://dev.to/api/articles?tags={divider.join(tags)}&per_page=100&page={page}"
 	r = requests.get(url)
 
 	if r.status_code >= 300:
@@ -29,27 +32,32 @@ def fetch_devto() -> None:
 		url = content["url"]
 		author = content["user"]["twitter_username"]
 		posted = False
+		tags = content["tag_list"]
 
 		post = prepare_post(
 			raw_content, 
 			author,
 			url,
+			tags
 		)
 
 		insert(Schedule(post, url, author, posted))
 
-		# schedules.append([post, url, author, posted])
 
-	# schedule(schedules)
-
-
-def prepare_post(content : str, author : str, url : str) -> str:
+def prepare_post(content : str, author : str, url : str, tags : list = []) -> str:
 	# removes excesive whitespaces
 	content = content.replace("  ", " ")
 
 	content_length = CHARACTER_LIMIT - len(url) - 2 #space characters
 	if author is not None:
 		content_length = content_length - len(author) - 3
+
+	if len(tags) > 0:
+		tags_length = 0
+		for t in tags:
+			tags_length += len(t) + 2
+
+		content_length = content_length - tags_length
 
 	# if content length greater then allowed twitter length - url included, then add elipsis
 	if len(content) > content_length:
