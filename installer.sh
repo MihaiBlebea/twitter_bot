@@ -56,8 +56,8 @@ fi
 echo "install or uninstall. that is the question..."
 if [[ $* == *-u* ]]; then
 	echo "uninstall it is then. sorry to see you leave"
-	rm -rf "./$FOLDER_NAME" && \
-	${HOME}/${FOLDER_NAME}/crontab.sh "$COMMAND" -u
+	eval "./$FOLDER_NAME/virtualenv/bin/python3 ./$FOLDER_NAME/src/cron.py -u" && \
+	rm -rf "./$FOLDER_NAME"
 	echo "finished the uninstall and clean up"
 else
 	echo "install it is then. continue with it"
@@ -92,7 +92,7 @@ else
 
 	# installing the cronjob
 	echo "installing the cronjob"
-	${HOME}/${FOLDER_NAME}/crontab.sh "$COMMAND"
+	eval "./$FOLDER_NAME/virtualenv/bin/python3 ./$FOLDER_NAME/src/cron.py -i"
 
 	echo "finish the install or update process. all up to date"
 fi

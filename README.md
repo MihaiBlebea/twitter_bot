@@ -30,3 +30,9 @@ Option 2 - download the installer and uninstall in one command:
 ```bash
 curl https://raw.githubusercontent.com/MihaiBlebea/twitter_bot/master/installer.sh --output installer.sh --silent && chmod +x ./installer.sh && ./installer.sh -u && rm -rf ./installer.sh
 ```
+
+Docs:
+
+https://pypi.org/project/python-crontab/
+
+https://www.saltycrane.com/blog/2011/11/how-get-username-home-directory-and-hostname-python/

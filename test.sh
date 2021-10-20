@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sqlite3 store.db < init.sql
+eval "${PWD}/virtualenv/bin/python3 ${PWD}/src/cron.py \"${@}\""
