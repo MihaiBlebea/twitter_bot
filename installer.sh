@@ -92,7 +92,7 @@ else
 
 	# installing the cronjob
 	echo "installing the cronjob"
-	eval "./$FOLDER_NAME/virtualenv/bin/python3 ./$FOLDER_NAME/src/cron.py -i"
+	eval "./virtualenv/bin/python3 ./src/cron.py -i"
 
 	echo "finish the install or update process. all up to date"
 fi
