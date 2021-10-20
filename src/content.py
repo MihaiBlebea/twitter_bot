@@ -1,6 +1,5 @@
 import requests
-import json
-# from scheduler import 
+import json 
 from store import Schedule, insert
 
 CHARACTER_LIMIT = 280
@@ -28,7 +27,7 @@ def fetch_devto(save_to_json : bool = False) -> None:
 		save_to_json(contents, "contents")
 
 	for content in contents:
-		raw_content = content["title"] + " " + content["description"]
+		raw_content = content["title"]
 		url = content["url"]
 		author = content["user"]["twitter_username"]
 		posted = False
@@ -64,10 +63,18 @@ def prepare_post(content : str, author : str, url : str, tags : list = []) -> st
 		length_with_elipsis = content_length - 3
 		content = content[:length_with_elipsis] + "..."
 
+	# process the tags
+	real_tags = []
+	for t in tags:
+		real_tags.append(f"#{t}")
+
+	delimiter = " "
+	tags_str = delimiter.join(real_tags)
+
 	if author is None:
-		content = f"{content} {url}"
+		content = f"{content} {tags_str} {url}"
 	else:
-		content = f"{content} @{author} {url}"
+		content = f"{content} {tags_str} @{author} {url}"
 
 	return content
 
