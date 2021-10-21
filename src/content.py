@@ -1,46 +1,47 @@
 import requests
 import json 
-from store import Schedule, insert
+from store import Schedule, insert, check_if_url_exists
 
 CHARACTER_LIMIT = 280
 
 def main():
-	fetch_devto()
+	fetch_devto(True)
 
 
-def fetch_devto(save_to_json : bool = False) -> None:
+def fetch_devto(save_file : bool = False) -> None:
 	"""
 	Fetches content from dev.to website and saves it in the schedules csv file
 	"""
-	tags = ["elixir", "go", "golang", "functional", "python"]
-	divider = ","
-	page = 1
-	url = f"https://dev.to/api/articles?tags={divider.join(tags)}&per_page=100&page={page}"
-	r = requests.get(url)
+	for page in range(16):
+		url = f"https://dev.to/api/articles?tag=go&tags_exclude=react&state=raising&per_page=100&page={page + 1}"
+		r = requests.get(url)
 
-	if r.status_code >= 300:
-		return None
+		if r.status_code >= 300:
+			return None
 
-	contents = r.json()
+		contents = r.json()
 
-	if save_to_json == True:
-		save_to_json(contents, "contents")
+		if save_file == True:
+			save_to_json(contents, "contents")
 
-	for content in contents:
-		raw_content = content["title"]
-		url = content["url"]
-		author = content["user"]["twitter_username"]
-		posted = False
-		tags = content["tag_list"]
+		for content in contents:
+			raw_content = content["title"]
+			url = content["url"]
+			author = content["user"]["twitter_username"]
+			posted = False
+			tags = content["tag_list"]
 
-		post = prepare_post(
-			raw_content, 
-			author,
-			url,
-			tags
-		)
+			if check_if_url_exists(url) == False:
+				post = prepare_post(
+					raw_content, 
+					author,
+					url,
+					tags
+				)
 
-		insert(Schedule(post, url, author, posted))
+				insert(Schedule(post, url, author, posted))
+			else:
+				print("post already saved")
 
 
 def prepare_post(content : str, author : str, url : str, tags : list = []) -> str:

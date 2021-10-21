@@ -41,7 +41,7 @@ def main():
 
 	if args.install == True:
 		print("install...")
-		install(cron, PUBLISH_CMD, "5 * * * *")
+		install(cron, PUBLISH_CMD, "5 8,11,12,15,17,19 * * *")
 		install(cron, DAILY_REPORT_CMD, "0 21 * * *")
 		return
 

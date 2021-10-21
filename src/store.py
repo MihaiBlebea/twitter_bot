@@ -33,6 +33,16 @@ def insert(schedule: Schedule) -> Schedule:
 	return schedule
 
 
+def check_if_url_exists(url : str) -> bool:
+	cursor = conn.cursor()
+	row = cursor.execute(f"SELECT * FROM {TABLE_NAME} WHERE link = \"{url}\"").fetchone()
+
+	if row == None:
+		return False
+		
+	return True
+
+
 def select_next_unposted() -> Schedule:
 	cursor = conn.cursor()
 	row = cursor.execute(f"""SELECT * FROM {TABLE_NAME} WHERE id NOT IN (

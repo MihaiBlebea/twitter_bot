@@ -42,8 +42,8 @@ def main():
 	# # save_to_json(tweets, "tweets")
 	# print(tweets.removeStatus)
 	
-	# res = api.update_status(post["post"])
-	# print(res)
+	res = api.update_status(schedule.post)
+	print(res)
 
 	send_message(schedule.post, config["BOT_TOKEN"], config["CHAT_ID"])
 
