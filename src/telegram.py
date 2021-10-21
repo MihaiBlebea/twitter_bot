@@ -1,8 +1,10 @@
 import requests
 
+
 def send_message(message : str, bot_token : str, chat_id : str) -> dict:
-	url = f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={chat_id}&parse_mode=Markdown&text={message}"
-	response = requests.get(url)
+	data = {"chat_id": chat_id, "text": message, "parse_mode": "Markdown"}
+	url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+	response = requests.post(url, data=data)
 
 	return response.json()
 
