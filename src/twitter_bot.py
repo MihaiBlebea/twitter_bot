@@ -3,7 +3,7 @@ from dotenv import dotenv_values
 
 from content import fetch_devto
 from telegram import send_message
-from store import Schedule, select_next_unposted, update_as_posted
+from store import select_next_unposted, mark_as_posted
 
 
 def main():
@@ -47,7 +47,7 @@ def main():
 
 	send_message(schedule.post, config["BOT_TOKEN"], config["CHAT_ID"])
 
-	update_as_posted(schedule.id)
+	mark_as_posted(schedule.id)
 
 
 if __name__ == "__main__":

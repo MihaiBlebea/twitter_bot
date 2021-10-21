@@ -2,7 +2,8 @@ from crontab import CronTab
 import getpass
 import argparse
 
-COMMAND = "cd ${HOME}/twitter_bot && ./publish.sh >> ${HOME}/twitter_bot_logs.log 2>&1"
+PUBLISH_CMD = "cd ${HOME}/twitter_bot && ./publish.sh >> ${HOME}/twitter_bot_logs.log 2>&1"
+DAILY_REPORT_CMD = "cd ${HOME}/twitter_bot && ./daily_report.sh >> ${HOME}/twitter_bot_logs.log 2>&1"
 
 def main():
 	parser = argparse.ArgumentParser(
@@ -34,32 +35,35 @@ def main():
 
 	if args.uninstall == True:
 		print("uninstall...")
-		uninstall(cron)
+		uninstall(cron, PUBLISH_CMD)
+		uninstall(cron, DAILY_REPORT_CMD)
 		return
 
 	if args.install == True:
 		print("install...")
-		install(cron)
+		install(cron, PUBLISH_CMD, "* * * * *")
+		install(cron, DAILY_REPORT_CMD, "* * * * *")
 		return
 
 
-def install(cron):
+def install(cron, cmd : str, schedule : str = "* * * * *") -> None:
 	# check if the command already exists
-	if exists(cron, COMMAND):
+	if exists(cron, cmd):
 		print("command already exists")
 		return
 
 	# install this command as a cron
 	job = cron.new(
-		command=COMMAND, 
+		command=cmd, 
 		comment="this command will run the posting script for twitter_bot",
 	)
-	job.minute.every(1)
+	job.setall(schedule)
+
 	cron.write()
 
 
-def uninstall(cron):
-	iter = cron.find_command(COMMAND)
+def uninstall(cron, cmd : str) -> None:
+	iter = cron.find_command(cmd)
 	for job in iter:
 		cron.remove(job)
 

@@ -3,5 +3,11 @@ CREATE TABLE schedules (
     post TEXT,
     link VARCHAR(255),
     twitter_username VARCHAR(255),
-    posted BOOLEAN
+	created DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE posted (
+    id INTEGER PRIMARY KEY,
+	post_id INTEGER,
+	created DATETIME DEFAULT CURRENT_TIMESTAMP
 );
