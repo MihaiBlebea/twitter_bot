@@ -3,3 +3,4 @@ virtualenv
 scheduler.csv
 contents.json
 store.db
+test.sh

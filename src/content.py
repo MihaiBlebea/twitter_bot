@@ -47,36 +47,25 @@ def prepare_post(content : str, author : str, url : str, tags : list = []) -> st
 	# removes excesive whitespaces
 	content = content.replace("  ", " ").replace("\"", "")
 
-	content_length = CHARACTER_LIMIT - len(url) - 2 #space characters
 	if author is not None:
-		content_length = content_length - len(author) - 3
+		content += f" @{author}"
 
 	if len(tags) > 0:
-		tags_length = 0
-		for t in tags:
-			tags_length += len(t) + 2
+		content += f" {process_tags(tags)}"
 
-		content_length = content_length - tags_length
+	content += f" {url}"
 
-	# if content length greater then allowed twitter length - url included, then add elipsis
-	if len(content) > content_length:
-		length_with_elipsis = content_length - 3
-		content = content[:length_with_elipsis] + "..."
+	return content
 
-	# process the tags
+
+def process_tags(tags : list) -> str:
 	real_tags = []
 	for t in tags:
 		real_tags.append(f"#{t}")
 
 	delimiter = " "
-	tags_str = delimiter.join(real_tags)
 
-	if author is None:
-		content = f"{content} {tags_str} {url}"
-	else:
-		content = f"{content} {tags_str} @{author} {url}"
-
-	return content
+	return delimiter.join(real_tags)
 
 
 def save_to_json(data, file_name : str) -> None:
