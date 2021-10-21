@@ -68,8 +68,11 @@ else
 		git pull $REPO_URL
 	else
 		echo "folder does not exist. just install..."
-		git clone $REPO_URL "./$FOLDER_NAME" && \
-		cd "./$FOLDER_NAME"
+		git clone $REPO_URL "./$FOLDER_NAME"
+		if test -f "./.env"; then
+			echo "copy the env file"
+			cp ./.env "./$FOLDER_NAME/.env"
+		fi
 	fi
 
 	# check if virtualenv has been activated
