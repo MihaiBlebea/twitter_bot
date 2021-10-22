@@ -13,6 +13,16 @@ class Schedule():
 		self.created = created
 
 
+class Follower():
+	def __init__(self, twitter_id, real_name, screen_name, image_url, created = None):
+		self.id = None
+		self.twitter_id = twitter_id
+		self.real_name = real_name
+		self.screen_name = screen_name
+		self.image_url = image_url
+		self.created = created
+
+
 def insert(schedule: Schedule) -> Schedule:
 	cursor = conn.cursor()
 	query = "INSERT INTO {} (post, link, twitter_username) VALUES (\"{}\", \"{}\", \"{}\")".format(
@@ -31,6 +41,28 @@ def insert(schedule: Schedule) -> Schedule:
 	cursor.close()
 
 	return schedule
+
+
+def inser_follower(follower : Follower) -> Follower:
+	cursor = conn.cursor()
+	query = """INSERT INTO followers 
+	(twitter_id, real_name, screen_name, image_url) 
+	VALUES (\"{}\", \"{}\", \"{}\", \"{}\")""".format(
+		follower.twitter_id,
+		follower.real_name,
+		follower.screen_name,
+		follower.image_url,
+	)
+	
+	cursor.execute(query)
+
+	conn.commit()
+
+	follower.id = cursor.lastrowid
+
+	cursor.close()
+
+	return follower
 
 
 def check_if_url_exists(url : str) -> bool:

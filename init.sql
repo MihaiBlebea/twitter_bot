@@ -11,3 +11,12 @@ CREATE TABLE posted (
 	post_id INTEGER,
 	created DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE followers (
+    id INTEGER PRIMARY KEY,
+	twitter_id INTEGER,
+	real_name VARCHAR(255),
+	screen_name VARCHAR(255),
+	image_url VARCHAR(255),
+	created DATETIME DEFAULT CURRENT_TIMESTAMP
+);

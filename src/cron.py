@@ -2,8 +2,8 @@ from crontab import CronTab
 import getpass
 import argparse
 
-PUBLISH_CMD = "cd ${HOME}/twitter_bot && ./publish.sh >> ${HOME}/twitter_bot_logs.log 2>&1"
-DAILY_REPORT_CMD = "cd ${HOME}/twitter_bot && ./daily_report.sh >> ${HOME}/twitter_bot_logs.log 2>&1"
+PUBLISH_CMD = "cd ${HOME}/twitter_bot && ./execute.sh publish >> ${HOME}/twitter_bot_logs.log 2>&1"
+DAILY_REPORT_CMD = "cd ${HOME}/twitter_bot && ./execute.sh report >> ${HOME}/twitter_bot_logs.log 2>&1"
 
 def main():
 	parser = argparse.ArgumentParser(
