@@ -3,8 +3,6 @@
 REPO_URL="https://github.com/MihaiBlebea/twitter_bot.git"
 FOLDER_NAME="twitter_bot"
 
-COMMAND="*/2 * * * * cd ${HOME}/${FOLDER_NAME} && ./publish.sh >> ${HOME}/twitter_bot_logs.log 2>&1"
-
 # check dependencies
 checkfor () {
 	command -v $1 >/dev/null 2>&1 || {
@@ -72,6 +70,9 @@ else
 		if test -f "./.env"; then
 			echo "copy the env file"
 			cp ./.env "./$FOLDER_NAME/.env"
+		else
+			echo "could not find .env file. please provide one at the same level as the install script"
+			exit 1
 		fi
 	fi
 
