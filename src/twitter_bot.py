@@ -15,39 +15,19 @@ def main():
 
 	api = tweepy.API(auth)
 	
-	schedule = select_next_unposted()
-	if schedule == None:
+	post = select_next_unposted()
+	if post == None:
 		# get some new posts
 		print("no more posts, fetch some more")
 		fetch_devto()
 
-		schedule = select_next_unposted()
-
-	# post = get_next_post()
-	# if post == None:
-	# 	print("no post found")
-		
-	# 	fetch_devto()
-	# 	post = get_next_post()
-
-
-	# trends = api.available_trends()
-	# save_to_json(trends)
+		post = select_next_unposted()
 	
-	# london_plance_id = 44418
-	# trends = api.get_place_trends(london_plance_id)
+	api.update_status(post.content)
 
-	# trend = trends[0]["trends"][0]
-	# tweets = api.search_tweets(q=trend["query"], lang="en")
-	# # save_to_json(tweets, "tweets")
-	# print(tweets.removeStatus)
-	
-	res = api.update_status(schedule.post)
-	print(res)
+	send_message(post.content, config["BOT_TOKEN"], config["CHAT_ID"])
 
-	send_message(schedule.post, config["BOT_TOKEN"], config["CHAT_ID"])
-
-	mark_as_posted(schedule.id)
+	mark_as_posted(post.id)
 
 
 if __name__ == "__main__":

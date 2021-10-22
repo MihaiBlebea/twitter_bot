@@ -1,7 +1,7 @@
 import tweepy
 from dotenv import dotenv_values
 
-from store import Follower, inser_follower
+from store import Follower, insert_follower
 
 
 def main():
@@ -15,7 +15,7 @@ def main():
 	
 	followers = api.get_followers()
 	for f in followers:
-		inser_follower(Follower(f.id, f.name, f.screen_name, f.profile_image_url_https))
+		insert_follower(Follower(f.id, f.name, f.screen_name, f.profile_image_url_https))
 
 
 if __name__ == "__main__":

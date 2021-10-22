@@ -1,6 +1,7 @@
-CREATE TABLE schedules (
+CREATE TABLE posts (
     id INTEGER PRIMARY KEY,
-    post TEXT,
+	source_id VARCHAR(255) UNIQUE,
+    content TEXT,
     link VARCHAR(255),
     twitter_username VARCHAR(255),
 	created DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -14,7 +15,7 @@ CREATE TABLE posted (
 
 CREATE TABLE followers (
     id INTEGER PRIMARY KEY,
-	twitter_id INTEGER,
+	twitter_id INTEGER UNIQUE,
 	real_name VARCHAR(255),
 	screen_name VARCHAR(255),
 	image_url VARCHAR(255),

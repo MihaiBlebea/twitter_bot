@@ -1,6 +1,6 @@
 import requests
 import json 
-from store import Schedule, insert, check_if_url_exists
+from store import Post, insert_post
 
 CHARACTER_LIMIT = 280
 
@@ -28,20 +28,17 @@ def fetch_devto(save_file : bool = False) -> None:
 			raw_content = content["title"]
 			url = content["url"]
 			author = content["user"]["twitter_username"]
-			posted = False
+			twitter_id = content["id"]
 			tags = content["tag_list"]
 
-			if check_if_url_exists(url) == False:
-				post = prepare_post(
-					raw_content, 
-					author,
-					url,
-					tags
-				)
+			post = prepare_post(
+				raw_content, 
+				author,
+				url,
+				tags
+			)
 
-				insert(Schedule(post, url, author, posted))
-			else:
-				print("post already saved")
+			insert_post(Post(twitter_id, post, url, author))
 
 
 def prepare_post(content : str, author : str, url : str, tags : list = []) -> str:
