@@ -14,7 +14,7 @@ def main():
 	auth.set_access_token(config["ACCESS_TOKEN"], config["ACCESS_TOKEN_SECRET"])
 
 	api = tweepy.API(auth)
-
+	
 	schedule = select_next_unposted()
 	if schedule == None:
 		# get some new posts

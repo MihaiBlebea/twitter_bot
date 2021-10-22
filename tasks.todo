@@ -2,6 +2,10 @@
 	✔ Get content from dev.to api @done (17/10/2021, 11:44:17)
 	✔ Create content scheduler in csv @done (17/10/2021, 11:44:21)
 	✔ Fetch content from scheduler and post it to twitter @done (17/10/2021, 11:44:24)
-	☐ Create pipeline to deploy twitter bot to raspberry pi
-	☐ Create cron job so twitter bot can post at regular times
-	☐ Fetch env variables from the env file, remove hardcoded variables
+	✔ Create pipeline to deploy twitter bot to raspberry pi @done (22/10/2021, 08:23:34)
+	✔ Create cron job so twitter bot can post at regular times @done (22/10/2021, 08:23:38)
+	✔ Fetch env variables from the env file, remove hardcoded variables @done (22/10/2021, 08:23:39)
+	☐ Create bot to save all followers to DB
+	☐ Add functionality to follow followers
+	☐ Create bot to find tweets by tag and reshare them. Save the reshared posts into the DB
+	☐ Add the followers count and reshared posts to the daily report
