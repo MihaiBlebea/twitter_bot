@@ -1,7 +1,6 @@
 from dotenv import dotenv_values
-import tweepy
 
-from store import get_posted_today;
+from store import get_posted_today, get_today_followers
 from telegram import send_message
 
 
@@ -9,13 +8,9 @@ def main():
 	config = dotenv_values(".env")
 
 	schedules = get_posted_today()
+	followers_count = get_today_followers()
 
-	auth = tweepy.OAuthHandler(config["CONSUMER_KEY"], config["CONSUMER_SECRET"])
-	auth.set_access_token(config["ACCESS_TOKEN"], config["ACCESS_TOKEN_SECRET"])
-
-	api = tweepy.API(auth)
-
-	message = f"Posted {len(schedules)} today on twitter today."
+	message = f"Posted {len(schedules)} today on twitter and got +{followers_count} new followers."
 	send_message(message, config["BOT_TOKEN"], config["CHAT_ID"])
 
 
