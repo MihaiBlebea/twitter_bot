@@ -86,7 +86,7 @@ def mark_as_posted(id : int, conn=conn) -> None:
 	cursor.close()
 
 
-def get_posted_today() -> list:
+def get_posted_today(conn=conn) -> list:
 	cursor = conn.cursor()
 	rows = cursor.execute(f"""SELECT * FROM posts WHERE id IN (
 		SELECT post_id FROM posted WHERE date(created) = date('now')  
@@ -100,6 +100,15 @@ def get_followers_count(conn=conn) -> int:
 	row = cursor.execute("SELECT count(id) FROM followers").fetchone()
 
 	return row[0]
+
+
+def get_today_followers(conn=conn) -> list:
+	cursor = conn.cursor()
+	rows = cursor.execute(
+		"SELECT * FROM followers WHERE DATE(created) = DATE('now')"
+	).fetchmany()
+
+	return from_rows_to_followers(rows)
 
 
 def from_row_to_post(row) -> Post:
