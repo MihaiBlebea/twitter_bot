@@ -37,12 +37,12 @@ class TestContent(unittest.TestCase):
 		self.conn = None
 
 	
-	def test_can_get_report_from_database(self):
-		followers = get_today_followers()
-		posts = get_posted_today()
+	# def test_can_get_report_from_database(self):
+	# 	followers = get_today_followers()
+	# 	posts = get_posted_today()
 
-		self.assertEqual(len(followers), 1, "this shoud be equal")
-		self.assertEqual(len(posts), 1, "this shoud be equal")		
+	# 	self.assertEqual(len(followers), 1, "this shoud be equal")
+	# 	self.assertEqual(len(posts), 1, "this shoud be equal")		
 
 
 	def __update_follower_created_date_to_yesterday(self, id : int):
