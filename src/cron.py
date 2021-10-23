@@ -3,6 +3,7 @@ import getpass
 import argparse
 
 PUBLISH_CMD = "cd ${HOME}/twitter_bot && ./execute.sh publish >> ${HOME}/twitter_bot_logs.log 2>&1"
+FOLLOWERS_CMD = "cd ${HOME}/twitter_bot && ./execute.sh followers >> ${HOME}/twitter_bot_logs.log 2>&1"
 DAILY_REPORT_CMD = "cd ${HOME}/twitter_bot && ./execute.sh report >> ${HOME}/twitter_bot_logs.log 2>&1"
 
 def main():
@@ -36,12 +37,14 @@ def main():
 	if args.uninstall == True:
 		print("uninstall...")
 		uninstall(cron, PUBLISH_CMD)
+		uninstall(cron, FOLLOWERS_CMD)
 		uninstall(cron, DAILY_REPORT_CMD)
 		return
 
 	if args.install == True:
 		print("install...")
 		install(cron, PUBLISH_CMD, "5 8,11,12,15,17,19 * * *")
+		install(cron, FOLLOWERS_CMD, "0 20 * * *")
 		install(cron, DAILY_REPORT_CMD, "0 21 * * *")
 		return
 

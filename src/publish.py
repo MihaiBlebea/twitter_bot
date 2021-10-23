@@ -18,6 +18,11 @@ def main():
 	post = select_next_unposted()
 	if post == None:
 		print("no more content")
+		send_message(
+			"There is no more content. Please add more", 
+			config["BOT_TOKEN"], 
+			config["CHAT_ID"],
+		)
 		return
 	
 	api.update_status(post.content)

@@ -2,7 +2,7 @@
 
 if [ "$1" == "publish" ]; then 
 	echo "publishing..."
-	eval "${PWD}/virtualenv/bin/python3 ${PWD}/src/twitter_bot.py \"${@:2}\""
+	eval "${PWD}/virtualenv/bin/python3 ${PWD}/src/publish.py \"${@:2}\""
 	echo "done"
 
 elif [ "$1" == "schedule" ]; then
