@@ -1,7 +1,7 @@
 import tweepy
 from dotenv import dotenv_values
 
-from src.store import Follower, insert_follower
+from store import Follower, insert_follower
 
 
 def main():

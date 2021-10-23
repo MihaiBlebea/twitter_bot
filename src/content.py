@@ -1,6 +1,6 @@
 import requests
 import json 
-from src.store import Post, insert_post
+from store import Post, insert_post
 
 CHARACTER_LIMIT = 280
 

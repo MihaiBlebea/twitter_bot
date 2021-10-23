@@ -1,7 +1,6 @@
 import tweepy
 from dotenv import dotenv_values
 
-from content import fetch_devto
 from telegram import send_message
 from store import select_next_unposted, mark_as_posted
 
