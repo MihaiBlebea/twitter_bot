@@ -2,6 +2,7 @@ import sqlite3
 
 conn = sqlite3.connect("store.db")
 
+
 class Post():
 	def __init__(self, source_id, content, link, twitter_username, created = None):
 		self.id = None
@@ -43,7 +44,7 @@ def insert_post(post: Post, conn=conn) -> Post:
 	return post
 
 
-def insert_follower(follower : Follower) -> Follower:
+def insert_follower(follower : Follower, conn=conn) -> Follower:
 	cursor = conn.cursor()
 	query = """INSERT OR IGNORE INTO followers 
 	(twitter_id, real_name, screen_name, image_url) 
@@ -91,7 +92,14 @@ def get_posted_today() -> list:
 		SELECT post_id FROM posted WHERE date(created) = date('now')  
 	) ORDER BY id ASC""").fetchall()
 
-	return from_rows_to_post(rows)
+	return from_rows_to_posts(rows)
+
+
+def get_followers_count(conn=conn) -> int:
+	cursor = conn.cursor()
+	row = cursor.execute("SELECT count(id) FROM followers").fetchone()
+
+	return row[0]
 
 
 def from_row_to_post(row) -> Post:
@@ -104,9 +112,25 @@ def from_row_to_post(row) -> Post:
 	return p
 
 
-def from_rows_to_post(rows : list) -> Post:
+def from_rows_to_posts(rows : list) -> list:
 	posts = []
 	for row in rows:
 		posts.append(from_row_to_post(row))
 		
 	return posts
+
+
+def from_row_to_follower(row) -> Follower:
+	f = Follower(row[1], row[2], row[3], row[4])
+	
+	f.id = row[0]
+
+	return f
+
+
+def from_rows_to_followers(rows : list) -> list:
+	followers = []
+	for row in rows:
+		followers.append(from_row_to_follower(row))
+		
+	return followers

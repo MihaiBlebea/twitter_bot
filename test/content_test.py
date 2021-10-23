@@ -2,7 +2,7 @@ import unittest
 import sqlite3
 
 from src.content import fetch_devto
-from src.store import from_rows_to_post, insert_post, select_next_unposted, mark_as_posted
+from src.store import from_rows_to_posts, insert_post, select_next_unposted, mark_as_posted
 
 
 class TestContent(unittest.TestCase):
@@ -62,8 +62,27 @@ class TestContent(unittest.TestCase):
 		self.assertEqual(post.source_id, second_post.source_id)
 
 
+	def test_not_fetching_duplicate_content(self):
+		"""
+		Fetch 100 articles from devto, save them to the database.
+		Fetch another 100 articles from devto, save them to the database.
+		Test that the total amount of articles in the database is still 100.
+		"""
+		posts = fetch_devto(1)
+		for post in posts:
+			insert_post(post, self.conn)
+
+		posts = fetch_devto(1)
+		for post in posts:
+			insert_post(post, self.conn)
+
+		total_posts = self.__all_posts()
+
+		self.assertEqual(len(total_posts), 100, "this shoud be equal")
+
+
 	def __all_posts(self) -> int:
 		cursor = self.conn.cursor()
 		rows = cursor.execute("SELECT * FROM posts").fetchall()
 
-		return from_rows_to_post(rows)
+		return from_rows_to_posts(rows)
