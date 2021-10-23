@@ -12,3 +12,6 @@ venv-install-all:
 
 venv-install:
 	./virtualenv/bin/pip3 install $(package)
+
+test-all:
+	./virtualenv/bin/python3 -m unittest discover -s test -p '*_test.py'

@@ -5,7 +5,7 @@ conn = sqlite3.connect("store.db")
 class Post():
 	def __init__(self, source_id, content, link, twitter_username, created = None):
 		self.id = None
-		self.source_id = source_id
+		self.source_id = str(source_id)
 		self.content = content
 		self.link = link
 		self.twitter_username = twitter_username
@@ -22,7 +22,7 @@ class Follower():
 		self.created = created
 
 
-def insert_post(post: Post) -> Post:
+def insert_post(post: Post, conn=conn) -> Post:
 	cursor = conn.cursor()
 	query = """INSERT OR IGNORE INTO posts (source_id, content, link, twitter_username) 
 	VALUES (\"{}\", \"{}\", \"{}\", \"{}\")""".format(
@@ -65,17 +65,7 @@ def insert_follower(follower : Follower) -> Follower:
 	return follower
 
 
-# def check_if_url_exists(url : str) -> bool:
-# 	cursor = conn.cursor()
-# 	row = cursor.execute(f"SELECT * FROM {TABLE_NAME} WHERE link = \"{url}\"").fetchone()
-
-# 	if row == None:
-# 		return False
-		
-# 	return True
-
-
-def select_next_unposted() -> Post:
+def select_next_unposted(conn=conn) -> Post:
 	cursor = conn.cursor()
 	row = cursor.execute(f"""SELECT * FROM posts WHERE id NOT IN (
 		SELECT post_id FROM posted
@@ -87,7 +77,7 @@ def select_next_unposted() -> Post:
 	return from_row_to_post(row)
 
 
-def mark_as_posted(id : int) -> None:
+def mark_as_posted(id : int, conn=conn) -> None:
 	cursor = conn.cursor()
 	query = f"INSERT INTO posted (post_id) VALUES (\"{id}\")"
 	cursor.execute(query)
@@ -101,15 +91,22 @@ def get_posted_today() -> list:
 		SELECT post_id FROM posted WHERE date(created) = date('now')  
 	) ORDER BY id ASC""").fetchall()
 
+	return from_rows_to_post(rows)
+
+
+def from_row_to_post(row) -> Post:
+	p = Post(row[1], row[2], row[3], row[4])
+	
+	if row[4] == "None":
+		p.twitter_username = None
+	p.id = row[0]
+
+	return p
+
+
+def from_rows_to_post(rows : list) -> Post:
 	posts = []
 	for row in rows:
 		posts.append(from_row_to_post(row))
 		
 	return posts
-
-
-def from_row_to_post(row) -> Post:
-	p = Post(row[1], row[2], row[3], row[4])
-	p.id = row[0]
-
-	return p

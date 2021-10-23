@@ -17,11 +17,8 @@ def main():
 	
 	post = select_next_unposted()
 	if post == None:
-		# get some new posts
-		print("no more posts, fetch some more")
-		fetch_devto()
-
-		post = select_next_unposted()
+		print("no more content")
+		return
 	
 	api.update_status(post.content)
 

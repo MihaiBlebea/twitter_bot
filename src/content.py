@@ -1,18 +1,21 @@
 import requests
 import json 
-from store import Post, insert_post
+from src.store import Post, insert_post
 
 CHARACTER_LIMIT = 280
 
 def main():
-	fetch_devto(True)
+	posts = fetch_devto(10, True)
+	for post in posts:
+		insert_post(post)
 
 
-def fetch_devto(save_file : bool = False) -> None:
+def fetch_devto(max_pages : int, save_file : bool = False) -> None:
 	"""
 	Fetches content from dev.to website and saves it in the schedules csv file
 	"""
-	for page in range(16):
+	posts = []
+	for page in range(max_pages):
 		url = f"https://dev.to/api/articles?tag=go&tags_exclude=react&state=raising&per_page=100&page={page + 1}"
 		r = requests.get(url)
 
@@ -38,7 +41,9 @@ def fetch_devto(save_file : bool = False) -> None:
 				tags
 			)
 
-			insert_post(Post(twitter_id, post, url, author))
+			posts.append(Post(twitter_id, post, url, author))
+
+	return posts
 
 
 def prepare_post(content : str, author : str, url : str, tags : list = []) -> str:
