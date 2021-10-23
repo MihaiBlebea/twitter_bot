@@ -20,6 +20,11 @@ elif [ "$1" == "followers" ]; then
 	eval "${PWD}/virtualenv/bin/python3 ${PWD}/src/followers.py \"${@:2}\""
 	echo "done"
 
+elif [ "$1" == "retweet" ]; then
+	echo "retweeting..."
+	eval "${PWD}/virtualenv/bin/python3 ${PWD}/src/retweet.py \"${@:2}\""
+	echo "done"
+
 else
 	echo "could not find command: $1"
 fi
