@@ -4,16 +4,37 @@
   vars:
     folder_path: /home/pi/twitter_bot
   tasks:
+    - name: Backup the database
+      shell:
+        cmd: cp ./store.db ./../twitter_bot_store.db
+        chdir: "{{ folder_path }}"
+      register: out
+
     - name: Removes the folder
       shell:
-        cmd: rm -rf "{{ folder_path }}"
+        cmd: "rm -rf {{ folder_path }}"
       register: out
 
     - debug: var=out.stdout_lines
 
-    - name: Removes the daily cronjob
+    - name: Remove the publish cron
       cron:
-        name: "twitter bot crons"
+        name: "twitter_bot publish cron"
+        state: absent
+
+    - name: Remove the retweet cron
+      cron:
+        name: "twitter_bot retweets cron"
+        state: absent
+
+    - name: Remove the followers cron
+      cron:
+        name: "twitter_bot followers cron"
+        state: absent
+
+    - name: Remove the report cron
+      cron:
+        name: "twitter_bot report cron"
         state: absent
 
     - name: Removes cron logs
