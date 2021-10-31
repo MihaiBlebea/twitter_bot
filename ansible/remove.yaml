@@ -1,21 +1,22 @@
 ---
 - name: Remove the jobs scraper
   hosts: all
+  vars:
+    folder_path: /home/pi/twitter_bot
   tasks:
     - name: Removes the folder
       shell:
-        cmd: rm -rf ./jobs_scraper
-        chdir: /home/pi
+        cmd: rm -rf "{{ folder_path }}"
       register: out
 
     - debug: var=out.stdout_lines
 
     - name: Removes the daily cronjob
       cron:
-        name: "execute scraper"
+        name: "twitter bot crons"
         state: absent
 
     - name: Removes cron logs
       shell:
-        cmd: rm -rf ./jobs_scraper.log
+        cmd: rm -rf ./twitter_bot.log
         chdir: /home/pi

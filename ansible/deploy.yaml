@@ -19,12 +19,33 @@
 
     - debug: var=out.stdout_lines
 
-    - name: Creates a daily cronjob
+    - name: Create publish cron job
       cron:
         name: "twitter bot crons"
         minute: "0"
         hour: "9,11,13,17,19"
         job: "cd ${HOME}/twitter_bot && ./execute.sh >> ${HOME}/twitter_bot.log 2>&1"
+
+    - name: Create followers cron job
+      cron:
+        name: "twitter bot crons"
+        minute: "0"
+        hour: "20"
+        job: "cd ${HOME}/twitter_bot && ./execute.sh followers >> ${HOME}/twitter_bot_logs.log 2>&1"
+
+    - name: Create retweets cron job
+      cron:
+        name: "twitter bot crons"
+        minute: "0"
+        hour: "10,14,15"
+        job: "cd ${HOME}/twitter_bot && ./retweet.sh retweet >> ${HOME}/twitter_bot_logs.log 2>&1"
+
+    - name: Create report cron job
+      cron:
+        name: "twitter bot crons"
+        minute: "0"
+        hour: "21"
+        job: "cd ${HOME}/twitter_bot && ./execute.sh report >> ${HOME}/twitter_bot_logs.log 2>&1"
 
     - name: Create the virtual env
       shell:
@@ -50,8 +71,3 @@
         owner: pi
         group: pi        
         mode: 0644
-
-    # - name: Start the API server
-    #   shell:
-    #     cmd: ./virtualenv/bin/python3 ./src/api.py &
-    #     chdir: /home/pi/jobs_scraper
