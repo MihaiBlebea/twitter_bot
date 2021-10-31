@@ -25,11 +25,6 @@ elif [ "$1" == "retweet" ]; then
 	eval "${PWD}/virtualenv/bin/python3 ${PWD}/src/retweet.py \"${@:2}\""
 	echo "done"
 
-elif [ "$1" == "cron" ]; then
-	echo "setting crontab..."
-	eval "${PWD}/virtualenv/bin/python3 ${PWD}/src/cron.py \"${@:2}\""
-	echo "done"
-
 else
 	echo "could not find command: $1"
 fi

@@ -10,6 +10,6 @@ if [[ "$?" != 0 ]]; then
 	exit 1
 fi
 
-ssh silverpi "curl https://raw.githubusercontent.com/MihaiBlebea/twitter_bot/master/installer.sh --output installer.sh --silent && chmod +x ./installer.sh && ./installer.sh"
+make ansible-deploy
 
 echo "finished!"
