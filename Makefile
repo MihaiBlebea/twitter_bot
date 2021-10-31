@@ -15,3 +15,12 @@ venv-install:
 
 test-all:
 	./virtualenv/bin/python3 -m unittest discover -s test -p '*_test.py'
+
+ansible-deploy:
+	ansible-playbook -i $$HOME/.ansible/inventory ./ansible/deploy.yaml
+
+ansible-remove:
+	ansible-playbook -i $$HOME/.ansible/inventory ./ansible/remove.yaml
+
+git:
+	git add . && git commit -m "$(msg)" && git push origin master

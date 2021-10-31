@@ -1,0 +1,57 @@
+---
+- name: Deploy the zoopla scraper
+  hosts: all
+  vars:
+    folder_path: /home/pi/twitter_bot
+  tasks:
+    - name: Clone scraper repo
+      git:
+        repo: https://github.com/MihaiBlebea/twitter_bot.git
+        dest: "{{ folder_path }}"
+        clone: yes
+        update: yes
+
+    - name: Install the software
+      shell:
+        cmd: sqlite3 store.db < ./init.sql
+        chdir: "{{ folder_path }}"
+      register: out
+
+    - debug: var=out.stdout_lines
+
+    - name: Creates a daily cronjob
+      cron:
+        name: "twitter bot crons"
+        minute: "0"
+        hour: "9,11,13,17,19"
+        job: "cd ${HOME}/twitter_bot && ./execute.sh >> ${HOME}/twitter_bot.log 2>&1"
+
+    - name: Create the virtual env
+      shell:
+        cmd: python3 -m venv virtualenv
+        chdir: "{{ folder_path }}"
+      register: out
+
+    - debug: var=out.stdout_lines
+
+    - name: Install the dependencies in virtualenv
+      shell:
+        cmd: ./virtualenv/bin/pip3 install -r requirements.txt
+        chdir: "{{ folder_path }}"
+      register: out
+
+    - debug: var=out.stdout_lines
+
+    - name: Copy env file to remote
+      become: true 
+      copy:
+        src: ~/Projects/Python/twitter_bot/.env
+        dest: "{{ folder_path }}/.env"
+        owner: pi
+        group: pi        
+        mode: 0644
+
+    # - name: Start the API server
+    #   shell:
+    #     cmd: ./virtualenv/bin/python3 ./src/api.py &
+    #     chdir: /home/pi/jobs_scraper
