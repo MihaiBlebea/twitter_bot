@@ -1,16 +1,20 @@
 import requests
 import json 
+from dotenv import dotenv_values
+
 from store import Post, insert_post
 
 CHARACTER_LIMIT = 280
 
+config = dotenv_values(".env")
+
 def main():
-	posts = fetch_devto(10, True)
+	posts = fetch_devto(1)
 	for post in posts:
 		insert_post(post)
 
 
-def fetch_devto(max_pages : int, save_file : bool = False) -> None:
+def fetch_devto(max_pages : int) -> None:
 	"""
 	Fetches content from dev.to website and saves it in the schedules csv file
 	"""
@@ -24,15 +28,15 @@ def fetch_devto(max_pages : int, save_file : bool = False) -> None:
 
 		contents = r.json()
 
-		if save_file == True:
-			save_to_json(contents, "contents")
-
 		for content in contents:
 			raw_content = content["title"]
 			url = content["url"]
 			author = content["user"]["twitter_username"]
 			twitter_id = content["id"]
 			tags = content["tag_list"]
+
+			if check_is_english(raw_content) is False:
+				continue
 
 			post = prepare_post(
 				raw_content, 
@@ -71,9 +75,36 @@ def process_tags(tags : list) -> str:
 	return delimiter.join(real_tags)
 
 
-def save_to_json(data, file_name : str) -> None:
-	with open(f"{file_name}.json", "w") as outfile:
-		json.dump(data, outfile)
+def check_is_english(text: str) -> bool:
+	url = "https://text-analysis12.p.rapidapi.com/language-detection/api/v1.1"
+
+	payload = {
+		"text": text
+	}
+
+	headers = {
+		"content-type": "application/json",
+		"x-rapidapi-host": "text-analysis12.p.rapidapi.com",
+		"x-rapidapi-key": config["RAPID_API_KEY"]
+	}
+
+	r = requests.post(url, data=json.dumps(payload), headers=headers)
+
+	if r.status_code != 200:
+		return True
+
+	body = r.json()
+
+	if body["ok"] is False:
+		return True
+
+	if "en" not in body["language_probability"]:
+		return False
+
+	if float(body["language_probability"]["en"]) > 0.5:
+		return True
+
+	return False
 
 
 if __name__ == "__main__":

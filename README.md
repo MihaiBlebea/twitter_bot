@@ -36,3 +36,5 @@ Docs:
 https://pypi.org/project/python-crontab/
 
 https://www.saltycrane.com/blog/2011/11/how-get-username-home-directory-and-hostname-python/
+
+API to detect language https://rapidapi.com/gaurmanojkumar530/api/text-analysis12
