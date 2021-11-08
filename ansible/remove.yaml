@@ -16,3 +16,8 @@
       register: out
 
     - debug: var=out.stdout_lines
+
+    - name: Removing the file from bin
+      file:
+        path: "/home/pi/.local/bin/twitter_bot"
+        state: absent
