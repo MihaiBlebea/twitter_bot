@@ -1,40 +1,34 @@
-# Python script maker for linux
+# Twitter bot for posting an update and retweeting
 
 
 ## How to install?
+You need to have `ansible` installed locally.
 Run this command:
 ```bash
-curl https://raw.githubusercontent.com/MihaiBlebea/twitter_bot/master/installer.sh --output installer.sh --silent && chmod +x ./installer.sh && ./installer.sh
+make ansible-deploy
 ```
 
 
 ## How to run?
-Run this command:
+#### To post an update use this command:
 ```bash
-chmod +x ${HOME}/twitter_bot/publish.sh && ${HOME}/twitter_bot/publish.sh
+twitter_bot -m="update message" -u="https://mihablebea.com" -f
 ```
+-m flag message to post in the update
+-u flag url to attach to the update
+-f flag for ignoring the fact that the update was already posted
 
-Or if the permission to execute has already been assigned, then run:
+#### To retweet a random tweet based on query tag use this command:
 ```bash
-${HOME}/twitter_bot/publish.sh
+twitter_bot q="golang" -f
 ```
+-q flag for adding a query tag for searching a tweet
+-f flag for ignoring the fact that the update was already posted
 
 
 ## How to uninstall?
-Option 1 - with the installer file: 
+You need to have `ansible` installed locally.
+Run this command:
 ```bash
-./installer.sh -u
+make ansible-remove
 ```
-
-Option 2 - download the installer and uninstall in one command:
-```bash
-curl https://raw.githubusercontent.com/MihaiBlebea/twitter_bot/master/installer.sh --output installer.sh --silent && chmod +x ./installer.sh && ./installer.sh -u && rm -rf ./installer.sh
-```
-
-Docs:
-
-https://pypi.org/project/python-crontab/
-
-https://www.saltycrane.com/blog/2011/11/how-get-username-home-directory-and-hostname-python/
-
-API to detect language https://rapidapi.com/gaurmanojkumar530/api/text-analysis12
