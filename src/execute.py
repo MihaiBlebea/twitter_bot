@@ -10,6 +10,8 @@ class Publisher():
 	
 	store_file = "store.db"
 
+	character_limit = 280
+
 	def __init__(self):
 		# create the config from env file
 		self.config = dotenv_values(".env")
