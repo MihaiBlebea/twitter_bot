@@ -55,7 +55,7 @@ class Publisher():
 		self.conn.commit()
 
 	def __check_if_posted(self, message: str) -> bool:
-		row = self.cursor.execute(f"SELECT count(id) FROM posted WHERE message = \"{message}\"").fetchone()
+		row = self.cursor.execute(f"SELECT id FROM posted WHERE message = \"{message}\"").fetchmany()
 
 		if len(row) == 0:
 			return False
