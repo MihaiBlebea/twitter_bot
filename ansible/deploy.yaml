@@ -11,53 +11,6 @@
         clone: yes
         update: yes
 
-    - name: Get the file tats
-      stat: 
-        path: /home/pi/twitter_bot_store.db
-      register: file
-
-    - name: copy file if it exists
-      copy: 
-        src: /home/pi/twitter_bot_store.db 
-        dest: "{{ folder_path }}/store.db"
-      when: file.stat.exists
-
-    - name: Install the software
-      shell:
-        cmd: sqlite3 store.db < ./init.sql
-        chdir: "{{ folder_path }}"
-      register: out
-
-    - debug: var=out.stdout_lines
-
-    - name: Create publish cron job
-      cron:
-        name: "twitter_bot publish cron"
-        minute: "0"
-        hour: "9,11,13,17,19"
-        job: "cd ${HOME}/twitter_bot && ./execute.sh >> ${HOME}/twitter_bot.log 2>&1"
-
-    - name: Create followers cron job
-      cron:
-        name: "twitter_bot followers cron"
-        minute: "0"
-        hour: "20"
-        job: "cd ${HOME}/twitter_bot && ./execute.sh followers >> ${HOME}/twitter_bot_logs.log 2>&1"
-
-    - name: Create retweets cron job
-      cron:
-        name: "twitter_bot retweets cron"
-        minute: "0"
-        hour: "10,14,15"
-        job: "cd ${HOME}/twitter_bot && ./execute.sh retweet >> ${HOME}/twitter_bot_logs.log 2>&1"
-
-    - name: Create report cron job
-      cron:
-        name: "twitter_bot report cron"
-        minute: "0"
-        hour: "21"
-        job: "cd ${HOME}/twitter_bot && ./execute.sh report >> ${HOME}/twitter_bot_logs.log 2>&1"
-
     - name: Create the virtual env
       shell:
         cmd: python3 -m venv virtualenv

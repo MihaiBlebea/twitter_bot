@@ -16,28 +16,3 @@
       register: out
 
     - debug: var=out.stdout_lines
-
-    - name: Remove the publish cron
-      cron:
-        name: "twitter_bot publish cron"
-        state: absent
-
-    - name: Remove the retweet cron
-      cron:
-        name: "twitter_bot retweets cron"
-        state: absent
-
-    - name: Remove the followers cron
-      cron:
-        name: "twitter_bot followers cron"
-        state: absent
-
-    - name: Remove the report cron
-      cron:
-        name: "twitter_bot report cron"
-        state: absent
-
-    - name: Removes cron logs
-      shell:
-        cmd: rm -rf ./twitter_bot.log
-        chdir: /home/pi
