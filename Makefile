@@ -26,12 +26,3 @@ git:
 	git add . && git commit -m "$(msg)" && git push origin master
 
 git-deploy: git ansible-deploy
-
-splash:
-	docker run -d -p 8050:8050 --name splash scrapinghub/splash --disable-private-mode
-
-splash-rm:
-	docker stop splash; docker rm splash
-	
-scrape:
-	./virtualenv/bin/scrapy crawl content -O page.json
