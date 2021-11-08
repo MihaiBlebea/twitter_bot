@@ -94,6 +94,7 @@ def main():
 
 	args = parser.parse_args()
 
+	print(args.message, args.url, args.force)
 	publisher = Publisher()
 	publisher.publish(args.message, args.url, args.force)
 

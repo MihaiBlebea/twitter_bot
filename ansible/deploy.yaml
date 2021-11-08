@@ -1,6 +1,7 @@
 ---
-- name: Deploy the zoopla scraper
+- name: Deploy twitter bot script
   hosts: all
+  remote_user: root
   vars:
     folder_path: /home/pi/twitter_bot
   tasks:
@@ -35,3 +36,17 @@
         owner: pi
         group: pi        
         mode: 0644
+
+    - name: Creating an executable file
+      copy:
+        dest: "/home/pi/.local/bin/twitter_bot"
+        content: |
+            #!/bin/bash
+            cd {{ folder_path }} && ./publish.sh "${@}"
+
+    - name: Create a new file with permissions
+      file:
+        path: "/home/pi/.local/bin/twitter_bot"
+        state: touch
+        mode: 0777
+        owner: pi
